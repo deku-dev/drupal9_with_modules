@@ -15,6 +15,9 @@ set -e
 SITE_DIRECTORY="default"
 DOCROOT_PATH="${PROJECT_ROOT}/${DOCROOT}"
 SITEDIR_PATH="${DOCROOT_PATH}/sites/${SITE_DIRECTORY}"
+MODULES_INSTALED="flag,admin_toolbar,layout_builder_blocks,paragraphs"
+THEME_INSTALLED="adminimal_theme,bootstrap5"
+
 
 #-------------------------- END: Settings --------------------------------
 
@@ -58,6 +61,15 @@ composer_install ()
 	cd "$PROJECT_ROOT"
 	echo-green "Installing dependencies..."
 	composer install
+	echo-green "Instaling theme..."
+	fin drush then ${THEME_INSTALLED}
+	echo-green "Instaling modules..."
+	fin drush en -y ${MODULES_INSTALED}
+	read -p "Set adminimal_theme to admin theme? " -n 1 -r
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        fin drush vset admin_theme adminimal_theme
+    fi
 }
 
 # Initialize local settings files
