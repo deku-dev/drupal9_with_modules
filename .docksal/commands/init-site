@@ -61,7 +61,12 @@ composer_install ()
 	cd "$PROJECT_ROOT"
 	echo-green "Installing dependencies..."
 	composer install
-	echo-green "Instaling theme..."
+}
+
+# Enable theme and modules
+setting_enable ()
+{
+    echo-green "Instaling theme..."
 	fin drush then ${THEME_INSTALLED}
 	echo-green "Instaling modules..."
 	fin drush en -y ${MODULES_INSTALED}
@@ -99,6 +104,7 @@ site_install ()
 
 	echo-green "Installing Drupal..."
 	drush site-install standard -y --site-name='My Drupal 9 Site'
+	setting_enable
 }
 
 #-------------------------- END: Functions --------------------------------
